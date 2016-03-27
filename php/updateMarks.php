@@ -28,4 +28,7 @@
 		echo $sql."<br>";
     	$result = $conn->query($sql);
 	}
+	$url = $_SERVER['HTTP_REFERER'];  
+
+	header("Location:$url");
 ?>

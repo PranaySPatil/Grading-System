@@ -1,57 +1,24 @@
 <?php
   include '../php/utility.php';
   session_start();
-  // echo $_SESSION['id']."<br>";
-  // $_SESSION['id'] = '131070007';
-  $sql = "select sem from login_student where user_id='".$_SESSION['id']."'";
+  $sql = "select name from login_teacher where user_id='".$_SESSION['id']."'";
   $result = $conn->query($sql);
-  $curr_sem = null;
-  while ($row = $result->fetch_assoc()) {
-    $curr_sem = $row['sem'];
+  $name = null;
+  while ($row = $result->fetch_assoc()){
+    $name = $row['name'];
   }
-  $sql_subjects = "select * from subject_list
-       where branch = (select branch from login_student where user_id='".$_SESSION['id']."')".
-       "and sem = '".$curr_sem."'";
-  $result_subjects = $conn->query($sql_subjects);
-  $subjects = array();
-  while ($row = $result_subjects->fetch_assoc()) {
-      $subjects[] = $row['subject'];
+
+  $sql2 = "select * from teaches where teacher_id='".$_SESSION['id']."'";
+  $result2 = $conn->query($sql2);
+  $teaches = array();
+  while ($row = $result2->fetch_assoc()){
+    $subject = array();
+    $subject['branch'] = $row['branch'];
+    $subject['sem'] = $row['sem'];
+    $subject['subject'] = $row['subject'];
+    $teaches[] = $subject;
   }
-  // var_dump($subjects);
-  $attendance_report = array();
-  foreach ($subjects as $subject) {
-    $report = array();
-    $sql_attended = "select attended from student_attended 
-        where student_id='".$_SESSION['id']."' ".
-       "and subject = '".$subject."'";
-    $result_attended = $conn->query($sql_attended);
-    $attended = null;
-    while ($row = $result_attended->fetch_assoc()) {
-          $attended = $row['attended'];
-    }
-    $report['attended'] = $attended;
-    $sql_total = "select teacher_id, total_lecs from teaches 
-        where subject='".$subject."' ".
-       "and sem = '".$curr_sem."'";
-    $result_total = $conn->query($sql_total);
-    $teacher_id = null;
-    $toal_lecs = null;
-    while ($row = $result_total->fetch_assoc()) {
-          $toal_lecs = $row['total_lecs'];
-          $teacher_id = $row['teacher_id'];
-    }
-    $report['toal_lecs'] = $toal_lecs;
-    $sql_name = "select name from login_teacher 
-        where user_id='".$teacher_id."'";
-    $result_name = $conn->query($sql_name);
-    $teacher_name = null;
-    while ($row = $result_name->fetch_assoc()) {
-          $teacher_name = $row['name'];
-    }
-    $report['teacher_name'] = $teacher_name;
-    $attendance_report[$subject] = $report;
-  }
-?> 
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -99,7 +66,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li ><a href="home2.php">Home</a></li>
-            <li ><a href="grades.php">Grades</a></li>
+            <!-- <li ><a href="grades.php">Grades</a></li> -->
             <li class="active"><a href="attendance.php">Attendace</a></li>
             <li ><a href="contact.html">Contact</a></li>
 
@@ -117,19 +84,15 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron"  style="text-align:center" >
-        <h2>Attendance Record</h2>
         <br><br>
-        <?php
-          // var_dump($attendance_report);
-          foreach ($subjects as $subject) {
-            $percentage = ((float)$attendance_report[$subject]['attended'] / (float)$attendance_report[$subject]['toal_lecs'])*100;
-            echo "<h3 style='text-align:left'>".$subject."</h3><br>";
-            echo "<h4>Total Lectures   : ".$attendance_report[$subject]['toal_lecs']."</h4>";
-            echo "<h4>Attended Lectures: ".$attendance_report[$subject]['attended']."</h4>";
-            echo "<h4>Faculty          : ".$attendance_report[$subject]['teacher_name']."</h4>";
-            echo "<h4>Total Attendance : ".(int)$percentage."%</h4>";
-            echo "<br><br><br>";
-          }
+        <?php 
+            echo "<h2>Current Courses</h2><br><br>";
+            foreach ($teaches as $subject) {
+              echo "<h3 style='text-align:center'><a href='editAttendance.php?subject=".$subject['subject']."
+              &sem=".$subject['sem']."'>Subject: ".$subject['subject']."</a></h3>";
+              echo "<h4 style='text-align:center'>Branch: ".$subject['branch']."</h4>";
+              echo "<h4 style='text-align:center'>Semester: ".$subject['sem']."</h4>";
+            }
         ?>
         
       </div>

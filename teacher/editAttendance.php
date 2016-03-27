@@ -2,44 +2,34 @@
   include '../php/utility.php';
   session_start();
   // echo $_GET['subject']."<br>".$_GET['sem'];
+  $teacher_id = $_SESSION['id'];
   $subject = $_GET['subject'];
   $sem = $_GET['sem'];
-  $sql2 = "select table_name,type from subject_list where subject='".$subject."'";
+
+  $total_lecs = null;
+  $sql2 = "select total_lecs from teaches where subject='".$subject."'";
   $result2 = $conn->query($sql2);
   $table_name = null;
   $type = null;
   while ($row = $result2->fetch_assoc()){
-    $table_name = $row['table_name'];
-    $type = $row['type'];
+    $total_lecs = $row['total_lecs'];
   }
-  // echo $type."<br>";
-  // echo $table_name."<br>";
+
   $sql = "select user_id from login_student where sem='".$sem."'";
   $result = $conn->query($sql);
   $student_ids = array();
-  $students = array();
+  $attended = array();
   while ($row = $result->fetch_assoc()){
-    $student = array();
     $user_id = $row['user_id'];
     $student_ids[] = $user_id;
-    $sql3 = "select * from ".$table_name." where student_id='".$user_id."'";
+    $sql3 = "select attended from student_attended where student_id='".$user_id."' 
+              and subject='".$subject."'";
     $result3 = $conn->query($sql3);
+    $a = null;
     while ($row2 = $result3->fetch_assoc()){
-      //echo "In While <br>";
-      if(strcmp($type, '1')==0){
-        $student['ta'] = $row2['ta'];
-        $student['grade'] = $row2['grade'];
-        $student['ist1'] = $row2['ist1'];
-        $student['ist2'] = $row2['ist2'];
-        $student['ese'] = $row2['ese'];
-      }
-      else{
-        $student['grade'] = $row2['grade'];
-      }
-      // var_dump($student);
-      // echo "<br>";
+      $a = $row2['attended'];
     }
-    $students[$user_id] = $student;
+    $attended[] = $a;
   }
 ?>
 <!DOCTYPE html>
@@ -91,8 +81,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li ><a href="home2.php">Home</a></li>
-            <li class="active"><a href="">Grades</a></li>
-            <li ><a href="attendance.php">Attendace</a></li>
+            <li class="active"><a href="">Attendace</a></li>
             <li ><a href="contact.html">Contact</a></li>
 
             
@@ -113,38 +102,52 @@
         <?php
           echo "<h2>".$subject."</h2><br><br>";
           $i = 0;
-          foreach ($students as $student) {
-            echo "<h3>".$student_ids[$i]."</h3><br>";
-            echo "<form role='form' action='../php/updateMarks.php' method='post'>";
-            // echo "<form role='form' action='' method=''>";
-            echo "<input type='hidden' value='".$student_ids[$i]."' name='student_id' id='student_id' />";
-            echo "<input type='hidden' value='".$table_name."' name='table_name' id='table_name' />";
-            echo "<input type='hidden' name='redirurl' value='".$_SERVER['HTTP_REFERER']."' />";
-            if(strcmp($type, '1')==0){
-              echo "<div class='form-group'><label for='ist1'>IST1</label><br>";
-              echo "<input type='text' name='ist1' id='ist1' value='".$student['ist1']."'>";
-              echo "</div>";
-              echo "<div class='form-group'><label for='ist2'>IST2</label><br>";
-              echo "<input type='text' name='ist2' id='ist2' value='".$student['ist2']."'>";
-              echo "</div>";
-              echo "<div class='form-group'><label for='ese'>ESE</label><br>";
-              echo "<input type='text' name='ese' id='ese' value='".$student['ese']."'>";
-              echo "</div>";
-              echo "<div class='form-group'><label for='ta'>TA</label><br>";
-              echo "<input type='text' name='ta' id='ta' value='".$student['ta']."'>";
-              echo "</div>";
-              echo "<div class='form-group'><label for='grade'>Grade</label><br>";
-              echo "<input type='text' name='grade' id='grade' value='".$student['grade']."'>";
-              echo "</div>";
-            }
-            else{
-              echo "<div class='form-group'><label for='grade'>Grade</label><br>";
-              echo "<input type='text' name='grade' id='grade' value='".$student['grade']."'>";
-              echo "</div>";
-            }
-            echo "<button type='submit' class='btn btn-default'>Submit</button></form><br><br>";
+          echo "<form role='form' action='../php/updateAttendance.php' method='post'>";
+          echo "<div class='form-group'><label for='total_lecs'><h4>Total Lectures<h4></label><br>";
+          echo "<input type='text' name='total' id='total' value='".$total_lecs."'>";
+          echo "</div><br><br>";
+          echo "<input type='hidden' value='".count($student_ids)."' name='total_forms'  />";
+          echo "<input type='hidden' value='".$subject."' name='subject'  />";
+          foreach (array_combine($student_ids, $attended) as $student => $attendace) {
+            echo "<h4>".$student."</h4>";
+            echo "<input type='hidden' value='".$student_ids[$i]."' name='student_id".$i."'/>";
+            echo "<div class='form-group'><label for='attended'>Attended</label> ";
+            echo "<input type='text' name='attended".$i."' value='".$attendace."'>";
+            echo "</div><br>";
             $i++;
+            // echo "<h2>".$student." ".$attendace."</h2>";
+          //   echo "<h3>".$student_ids[$i]."</h3><br>";
+          //   echo "<form role='form' action='../php/updateMarks.php' method='post'>";
+          //   // echo "<form role='form' action='' method=''>";
+          //   echo "<input type='hidden' value='".$student_ids[$i]."' name='student_id' id='student_id' />";
+          //   echo "<input type='hidden' value='".$table_name."' name='table_name' id='table_name' />";
+          //   echo "<input type='hidden' name='redirurl' value='".$_SERVER['HTTP_REFERER']."' />";
+          //   if(strcmp($type, '1')==0){
+          //     echo "<div class='form-group'><label for='ist1'>IST1</label><br>";
+          //     echo "<input type='text' name='ist1' id='ist1' value='".$student['ist1']."'>";
+          //     echo "</div>";
+          //     echo "<div class='form-group'><label for='ist2'>IST2</label><br>";
+          //     echo "<input type='text' name='ist2' id='ist2' value='".$student['ist2']."'>";
+          //     echo "</div>";
+          //     echo "<div class='form-group'><label for='ese'>ESE</label><br>";
+          //     echo "<input type='text' name='ese' id='ese' value='".$student['ese']."'>";
+          //     echo "</div>";
+          //     echo "<div class='form-group'><label for='ta'>TA</label><br>";
+          //     echo "<input type='text' name='ta' id='ta' value='".$student['ta']."'>";
+          //     echo "</div>";
+          //     echo "<div class='form-group'><label for='grade'>Grade</label><br>";
+          //     echo "<input type='text' name='grade' id='grade' value='".$student['grade']."'>";
+          //     echo "</div>";
+          //   }
+          //   else{
+          //     echo "<div class='form-group'><label for='grade'>Grade</label><br>";
+          //     echo "<input type='text' name='grade' id='grade' value='".$student['grade']."'>";
+          //     echo "</div>";
+          //   }
+          //   echo "<button type='submit' class='btn btn-default'>Submit</button></form><br><br>";
+          //   $i++;
           }
+          echo "<button type='submit' class='btn btn-default'>Submit</button></form><br><br>";
         ?>
       </div>
           

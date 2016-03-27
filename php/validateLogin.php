@@ -12,7 +12,7 @@ if (!empty($_POST['user_id']))
     $result = $conn->query($sql);
     if ($result->num_rows > 0)
     {
-        header('Location: ../student/home2.php?userName=Pranay');
+        header('Location: ../student/home2.php');
     }
     else{
         $sql2 = "select 1 from login_teacher where user_id='".$_SESSION['id']."' AND password='".$pass."'";
