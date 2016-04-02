@@ -41,7 +41,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../icons/favicon.png">
 
     <title>Grading System</title>
 
@@ -95,7 +95,7 @@
     </nav>
 
     <div class="container">
-      <button class="btn-primary black_list" data-toggle="collapse" data-target="#black_list" onclick="generateBL()" style="float:right;margin:8px;height:30px;background:#000">Genreate Black List</button>
+      <button class="black_list" data-toggle="collapse" data-target="#black_list" onclick="generateBL()" style="float:right;margin:8px;height:30px">Genreate Black List</button>
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron"  style="text-align:center" >
         
@@ -190,7 +190,7 @@
           }
           str = str.concat("</ol>");
           if(black_list.length>0)
-            document.getElementById("black_list").innerHTML = "<br>Black List<br><br>".concat(str);
+            document.getElementById("black_list").innerHTML = "<br><h4>Black List</h4>".concat(str);
           else
             document.getElementById("black_list").innerHTML = "<br>NO STUDENT IS IN THE BLACK LIST<br>";
       }

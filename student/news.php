@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../icons/favicon.png">
 
     <title>Grading System</title>
 
@@ -94,16 +94,19 @@
               $up_sem = $row["sem"];
               $up_branch = $row["branch"];
               // echo $title."<br>".$up_sem."<br>".$up_branch."<br>";
+
               $sql2 = "select name from login_student where user_id='".$uploader."';";
               if(strncmp($uploader, "teacher", 7)==0)
                 $sql2 = "select name from login_teacher where user_id='".$uploader."';";
               $result2 = $conn->query($sql2);
               while ($row2 = $result2->fetch_assoc()){
                 // echo $row2["name"]."---<br>";
-                $uploader = $row2["name"];    
+                $uploader = $row2["name"];  
+                // echo $type." ".$title." ".$up_sem." ".$up_branch."<br>";
               } 
 
               if((strcmp($sem, $up_sem)==0 || strcmp(NULL, $up_sem)==0) && (strcmp($branch, $up_branch)==0 || strcmp("All", $up_branch)==0)){
+
                 echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
                 echo "<h3>".$title."</h3>";
                 echo "<h4>".$uploader."</h4>";
@@ -111,22 +114,22 @@
                 if(strcmp($type, "doc")==0 || strcmp($type, "docx")==0)
                   {
                     
-                    echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../icons/doc.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
+                    echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../icons/doc.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
                     echo "</div></div>";
                   }
                 else if(strcmp($type, "pdf")==0){
                   // echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
-                  echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../icons/pdf.png' alt='".$file."' /></a></div><center><br>";
+                  echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../icons/pdf.png' alt='".$file."' /></a></div><center><br>";
                   echo "</div></div>";
                 }
                 else if(strcmp($type, "ppt")==0){
                   // echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
-                  echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../icons/ppt.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
+                  echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../icons/ppt.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
                   echo "</div></div>";
                 }
                 else{
                   // echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
-                  echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../uploads/".$file."' alt='".$file."' /></a></div><center><br>";  
+                  echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../uploads/".$file."' alt='".$file."' /></a></div><center><br>";  
                   echo "</div></div>";
                 }
                 }

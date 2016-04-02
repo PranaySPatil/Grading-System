@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../icons/favicon.png">
 
     <title>Grading System</title>
 
@@ -134,13 +134,13 @@
               echo "<h4>".$uploader."</h4>";
               echo $date."<br>";
               if(strcmp($type, "doc")==0 || strcmp($type, "docx")==0)
-                echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../icons/doc.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
+                echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../icons/doc.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
               else if(strcmp($type, "pdf")==0)
-                echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../icons/pdf.png' alt='".$file."' /></a></div><center><br>";
+                echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../icons/pdf.png' alt='".$file."' /></a></div><center><br>";
               else if(strcmp($type, "ppt")==0)
-                echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../icons/ppt.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
+                echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../icons/ppt.png' alt='".$file."' style='max-width:300px'/></a></div><center><br>";
               else
-                echo "<center><div class='item'><a href='../uploads/".$file."'><img src='../uploads/".$file."' alt='".$file."' /></a></div><center><br>";
+                echo "<center><div class='item'><a target='_blank' href='../uploads/".$file."'><img src='../uploads/".$file."' alt='".$file."' /></a></div><center><br>";
               echo "</div></div>";
           }
         ?> 
