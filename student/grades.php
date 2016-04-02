@@ -67,7 +67,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style="background-image: url('../icons/back.jpg');background-attachment: fixed">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -87,7 +87,7 @@
             <li class="active"><a href="grades.php">Grades</a></li>
             <li ><a href="attendance.php">Attendace</a></li>
             <li ><a href="contact.html">Contact</a></li>
-
+            <li ><a href="news.php">News</a></li>
             
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -98,13 +98,20 @@
       </div>
     </nav>
 
-    <div class="container">
+    <!-- <div class="container">
 
-      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron"  style="text-align:center" > -->
+        <div class="container">
+      
       <div class="jumbotron"  style="text-align:center" >
+        <h2>Grades Record</h2>
+        <!-- <br><br> -->
+      </div>
+    </div>
         <?php
           include '../php/getSPI.php';
           for($sem=$curr_sem;$sem>0;$sem--){
+            echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
             echo "<h2>Sem: ".$sem."</h2><br>";
             if(array_key_exists("sem".$sem, $spi_list))
               echo "<h3>SPI: ".$spi_list['sem'.$sem]."</h3><br>";
@@ -132,14 +139,14 @@
               echo "</tr>";
             }
             echo "</tbody>";
-            echo "</table>"."<br>";
+            echo "</table>"."<br></div></div>";
 
           }
         ?>
         
-      </div>
+     <!--  </div>
           
-    </div> <!-- /container -->
+    </div> --> <!-- /container -->
 
 
     <!-- Bootstrap core JavaScript

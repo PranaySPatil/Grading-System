@@ -49,7 +49,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style="background-image: url('../icons/back.jpg');background-attachment: fixed">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -69,7 +69,7 @@
             <!-- <li ><a href="grades.php">Grades</a></li> -->
             <li class="active"><a href="attendance.php">Attendace</a></li>
             <li ><a href="contact.html">Contact</a></li>
-
+            <li><a href="news.php">News</a></li>
             
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -84,8 +84,11 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron"  style="text-align:center" >
-        <br><br>
+        <h2>Edit Attendance</h2>
+        </div>
+      </div>
         <?php 
+            echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
             echo "<h2>Current Courses</h2><br><br>";
             foreach ($teaches as $subject) {
               echo "<h3 style='text-align:center'><a href='editAttendance.php?subject=".$subject['subject']."
@@ -93,6 +96,7 @@
               echo "<h4 style='text-align:center'>Branch: ".$subject['branch']."</h4>";
               echo "<h4 style='text-align:center'>Semester: ".$subject['sem']."</h4>";
             }
+            echo "</div></div>";
         ?>
         
       </div>

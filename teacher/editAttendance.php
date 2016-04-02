@@ -64,7 +64,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style="background-image: url('../icons/back.jpg');background-attachment: fixed">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -83,7 +83,7 @@
             <li ><a href="home2.php">Home</a></li>
             <li class="active"><a href="">Attendace</a></li>
             <li ><a href="contact.html">Contact</a></li>
-
+            <li><a href="news.php">News</a></li>
             
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -95,10 +95,13 @@
     </nav>
 
     <div class="container">
-
+      <button class="btn-primary black_list" data-toggle="collapse" data-target="#black_list" onclick="generateBL()" style="float:right;margin:8px;height:30px;background:#000">Genreate Black List</button>
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron"  style="text-align:center" >
         
+        <div id="black_list" class="collapse">
+          "HEEYYYAAA"<br><br>
+        </div>
         <?php
           echo "<h2>".$subject."</h2><br><br>";
           $i = 0;
@@ -107,7 +110,8 @@
           echo "<input type='text' name='total' id='total' value='".$total_lecs."'>";
           echo "</div><br><br>";
           echo "<input type='hidden' value='".count($student_ids)."' name='total_forms'  />";
-          echo "<input type='hidden' value='".$subject."' name='subject'  />";
+          echo "<input type='hidden' value='".$subject."' name='subject'  /></div></div>";
+          echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
           foreach (array_combine($student_ids, $attended) as $student => $attendace) {
             echo "<h4>".$student."</h4>";
             echo "<input type='hidden' value='".$student_ids[$i]."' name='student_id".$i."'/>";
@@ -147,7 +151,7 @@
           //   echo "<button type='submit' class='btn btn-default'>Submit</button></form><br><br>";
           //   $i++;
           }
-          echo "<button type='submit' class='btn btn-default'>Submit</button></form><br><br>";
+          echo "<button type='submit' class='btn btn-default'>Submit</button></form></div></div>";
         ?>
       </div>
           
@@ -158,7 +162,41 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../static/js/bootstrap.min.js"></script>
-    
+    <script>
+      function generateBL() {
+          var leastPercent = prompt("Enter the minimum attendace percentage");
+          var total_a = document.getElementsByName("total")[0].getAttribute("value");
+          <?php
+            echo "var total_students = ".$i.";";
+          ?>
+          // alert(total_students);
+          var black_list = [];
+          var black_list_percen = [];
+          for(i=0;i<total_students;i++){
+            var student = document.getElementsByName("attended".concat(i))[0].getAttribute("value");
+            var id = document.getElementsByName("student_id".concat(i))[0].getAttribute("value");
+            // alert(student);
+            var percentage = (student/total_a)*100;
+            // alert(percentage);
+            if(percentage<leastPercent){
+              black_list_percen.push(percentage);
+              black_list.push(id);
+            }
+          }
+          //alert(black_list.join("\n"));
+          var str = "<ol>";
+          for(i=0;i<black_list.length;i++){
+            str = str.concat("<li>".concat(black_list[i],": ",black_list_percen[i],"</li>"));
+          }
+          str = str.concat("</ol>");
+          if(black_list.length>0)
+            document.getElementById("black_list").innerHTML = "<br>Black List<br><br>".concat(str);
+          else
+            document.getElementById("black_list").innerHTML = "<br>NO STUDENT IS IN THE BLACK LIST<br>";
+      }
+    </script>
+
+
     <script language="javascript" type="text/javascript">
       function loginWarn() {
           alert("Please Sign In First");

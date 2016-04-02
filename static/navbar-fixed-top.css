@@ -5,3 +5,17 @@ body {
 a {
   color: inherit; 
 } 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.item {
+    min-width: 300px;
+    min-height: 300px;
+    max-height: auto;
+    max-width: 400px;
+    /*float: left;*/
+    margin: 3px;
+    padding: 3px;
+}

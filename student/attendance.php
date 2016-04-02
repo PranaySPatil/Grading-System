@@ -82,7 +82,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style="background-image: url('../icons/back.jpg');background-attachment: fixed">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -102,7 +102,7 @@
             <li ><a href="grades.php">Grades</a></li>
             <li class="active"><a href="attendance.php">Attendace</a></li>
             <li ><a href="contact.html">Contact</a></li>
-
+            <li ><a href="news.php">News</a></li>
             
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -114,27 +114,32 @@
     </nav>
 
     <div class="container">
-
-      <!-- Main component for a primary marketing message or call to action -->
+      
       <div class="jumbotron"  style="text-align:center" >
         <h2>Attendance Record</h2>
-        <br><br>
+        <!-- <br><br> -->
+      </div>
+    </div>
         <?php
           // var_dump($attendance_report);
           foreach ($subjects as $subject) {
             $percentage = ((float)$attendance_report[$subject]['attended'] / (float)$attendance_report[$subject]['toal_lecs'])*100;
+            echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
             echo "<h3 style='text-align:left'>".$subject."</h3><br>";
             echo "<h4>Total Lectures   : ".$attendance_report[$subject]['toal_lecs']."</h4>";
             echo "<h4>Attended Lectures: ".$attendance_report[$subject]['attended']."</h4>";
             echo "<h4>Faculty          : ".$attendance_report[$subject]['teacher_name']."</h4>";
             echo "<h4>Total Attendance : ".(int)$percentage."%</h4>";
-            echo "<br><br><br>";
+            //echo "<br><br><br>";
+            echo "</div></div>";
           }
         ?>
         
-      </div>
+     <!--  </div>
           
-    </div> <!-- /container -->
+    </div>  --><!-- /container -->
+
+
 
 
     <!-- Bootstrap core JavaScript

@@ -64,7 +64,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style="background-image: url('../icons/back.jpg');background-attachment: fixed">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -84,7 +84,7 @@
             <li ><a href="grades.php">Grades</a></li>
             <li ><a href="attendance.php">Attendace</a></li>
             <li ><a href="contact.html">Contact</a></li>
-
+            <li ><a href="news.php">News</a></li>
             
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -105,7 +105,12 @@
             echo "</h2>";
              
             ?>
-            <br><br><br>
+      </div>
+    </div>
+            <!-- <br><br><br> -->
+            <div class="container">
+
+        <div class="jumbotron"  style="text-align:center" >
             <div id="chart_div" style="width: 900px; height: 500px; left: 50%"></div>
             <?php 
 
