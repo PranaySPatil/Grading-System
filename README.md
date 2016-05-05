@@ -1,0 +1,2 @@
+# Grading-System
+Grading System is meant to serve as a common platform where management of grades and attendance can be carried out conveniently. The goal is to develop user friendly system and to manage academic tasks conveniently.Grading System generates grades and SPI for the subjects which are offered by university and for which students have registered. The system also maintains attendance record of all the students.
