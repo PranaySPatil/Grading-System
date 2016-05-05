@@ -1,24 +1,10 @@
 <?php
-  include '../php/utility.php';
-  session_start();
-  $sql = "select name from login_teacher where user_id='".$_SESSION['id']."'";
-  $result = $conn->query($sql);
-  $name = null;
-  while ($row = $result->fetch_assoc()){
-    $name = $row['name'];
-  }
-
-  $sql2 = "select * from teaches where teacher_id='".$_SESSION['id']."'";
-  $result2 = $conn->query($sql2);
-  $teaches = array();
-  while ($row = $result2->fetch_assoc()){
-    $subject = array();
-    $subject['branch'] = $row['branch'];
-    $subject['sem'] = $row['sem'];
-    $subject['subject'] = $row['subject'];
-    $teaches[] = $subject;
-  }
-?>
+      if (!empty($_GET['status']))
+        //echo $_GET['status'];
+        session_start();
+        $_SESSION = array();
+        session_destroy();
+    ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,20 +14,21 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../icons/favicon.png">
+    <link rel="icon" href="icons/favicon.png">
 
     <title>Grading System</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../static/bootstrap.min.css" rel="stylesheet">
+    <link href="static/bootstrap.min.css" rel="stylesheet">
 
 
     <!-- Custom styles for this template -->
-    <link href="../static/navbar-fixed-top.css" rel="stylesheet">
+    <link href="static/navbar-fixed-top.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -49,7 +36,7 @@
     <![endif]-->
   </head>
 
-  <body style="background-image: url('../icons/back.jpg');background-attachment: fixed">
+  <body style="background-image: url('icons/back.jpg')">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -65,47 +52,59 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="home2.php">Home</a></li>
-            <!-- <li ><a href="grades.php">Grades</a></li> -->
-            <li ><a href="attendance.php">Attendace</a></li>
-            <li ><a href="contact.html">Contact</a></li>
-            <li><a href="news.php">News</a></li>
-            
+            <li class="active"><a href="#">Home</a></li>
+            <li onclick="loginWarn()"><a href="#about">Grades</a></li>
+            <li onclick="loginWarn()"><a href="#contact">Attendace</a></li>
+            <li onclick="loginWarn()"><a href="#contact">Contact</a></li>
+
+            <!-- <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li> -->
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../index.php?status=logout">LogOut</a></li>
-            
+            <!-- <li><a href="../navbar/">Default</a></li>
+            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li> -->
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container" >
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron"  style="text-align:center" >
-        <?php 
-            echo "<h2 class='form-signin-heading'>Welcome, ";
-            echo $name;
-            echo "</h2></div></div>";
-            echo "<div class='container'><div class='jumbotron'  style='text-align:center' >";
-            echo "<h2>Current Courses</h2><br><br>";
-            foreach ($teaches as $subject) {
-              echo "<h3 style='text-align:center'><a href='grades.php?subject=".$subject['subject']."
-              &sem=".$subject['sem']."'>Subject: ".$subject['subject']."</a></h3>";
-              echo "<h4 style='text-align:center'>Branch: ".$subject['branch']."</h4>";
-              echo "<h4 style='text-align:center'>Semester: ".$subject['sem']."</h4>";
-            }
-            echo "</div></div>";
-        ?>
-        </div>
-          
+      <div class="jumbotron" style:"margin-left:auto;margin-right:auto"  >
+        <form class="form-signin" action="php/validateLogin.php" method="post">
+              <h2 class="form-signin-heading">Please sign in</h2>
+              <label for="inputEmail" class="sr-only">User ID</label>
+              <input id="inputEmail" class="form-control" name="user_id" placeholder="User ID" required autofocus>
+              <br>
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="remember-me"> Remember me
+                </label>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          </form>
+      </div>
 
     </div> <!-- /container -->
 
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
@@ -115,5 +114,6 @@
           alert("Please Sign In First");
       }
     </script>
+
   </body>
 </html>

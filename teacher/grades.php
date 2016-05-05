@@ -277,7 +277,7 @@
                 else if(total>=parseInt(up4))
                   grade = 4;
                 else 
-                  grade = 3;
+                  grade = 0;
                 totalA.push(total);
                 gradeA.push(grade);
                 idA.push(id);

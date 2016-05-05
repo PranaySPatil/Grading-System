@@ -73,7 +73,7 @@
             
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../index.html?status=logout">LogOut</a></li>
+            <li><a href="../index.php?status=logout">LogOut</a></li>
             
           </ul>
         </div><!--/.nav-collapse -->
